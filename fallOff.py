@@ -4,7 +4,6 @@ import pymel.core as pm
 import shiboken2
 import maya.cmds as cmds
 
-
 def getMayaWindow():
     # this gets Maya's main window as a QT object
     ptr = apiUI.MQtUtil.mainWindow()
@@ -16,7 +15,7 @@ class MyWidget(QtWidgets.QWidget):
     moveKeySettingsDic = {
         'constant': 'constant',
         'linear': 'linear',
-        'exponetial': 'power'
+        'exponential': 'power'
     }
 
         # this is your own custom class object
@@ -24,7 +23,7 @@ class MyWidget(QtWidgets.QWidget):
         # keep your parent when you make it - i.e your object knows the maya main window
         self.myParent = parent
         loader = QtUiTools.QUiLoader()
-        file = QtCore.QFile("C:\Users\jrobinson\Desktop\PythonUI\TomUI.ui")
+        file = QtCore.QFile("C:\Users\Jonny\Desktop\PythonUI\TomUI.ui")
         file.open(QtCore.QFile.ReadOnly)
         self.myWidget = loader.load(file, self.myParent)
         file.close()
@@ -33,14 +32,11 @@ class MyWidget(QtWidgets.QWidget):
 
     def connectButtons(self):
         # hook up your buttons and gui stuff here
-        self.myWidget.fallOff_ComboBox.currentIndexChanged.connect(self.setMoveFalloff)
+        self.myWidget.fallOff_ComboBox.currentIndexChanged.connect(self.whatFalloffAmI)
 
     def whatFalloffAmI(self):
         myNewFalloff = self.moveKeySettingsDic[self.myWidget.fallOff_ComboBox.currentText ()]
-        print "my falloff is =", myNewFalloff
-
-    def setMoveFalloff(self):
-        cmds.moveKeyCtx('moveKeyContext' , e=True, moveFunction=self.myWidget.whatFalloffAmI())
-
+        #print "my falloff is =", myNewFalloff
+        cmds.moveKeyCtx('moveKeyContext' , e=True, moveFunction=myNewFalloff)
 
 test = MyWidget(getMayaWindow())
